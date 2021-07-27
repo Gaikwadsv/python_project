@@ -10,10 +10,12 @@ class apple :
         self.parent_screen=parent_screen
         self.y=size*3
         self.x=size*3
+     #draw an apple
     def draw(self):
 
         self.parent_screen.blit(self.image, (self.x, self.y))
         pygame.display.flip()
+      #move an apple
     def move(self):
         self.x=random.randint(1,20)*size
         self.y=random.randint(1,15)*size
@@ -30,16 +32,18 @@ class Snake:
         self.x = [40]
         self.y = [40]
         self.direction='right '
-
+     #to increase the length of snake
     def increase_len(self):
         self.length+=1
         self.x.append(-1)
         self.y.append(-1)
+      #to draw snake
     def draw(self):
 
         for i in range(self.length):
          self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
         pygame.display.flip()
+      
     def move_up(self):
         self.direction='up'
 
@@ -50,6 +54,7 @@ class Snake:
         self.direction='left'
     def move_right(self):
         self.direction='right'
+      #to continue walking of snake
     def walk(self):
         for i in range(self.length-1,0,-1):
             self.x[i] = self.x[i - 1]
@@ -83,9 +88,11 @@ class Game:
         self.snake.draw()
         self.apple=apple(self.surface)
         self.apple.draw()
+      #to daraw background of game
     def background(self):
         bg=pygame.image.load("background.jpg").convert()
         self.surface.blit(bg,(0,0))
+      #to start new game
     def reset(self):
         self.snake=Snake(self.surface,1)
         self.apple=apple(self.surface)
@@ -95,19 +102,22 @@ class Game:
                 return True
 
         return False
+     #to play background music
     def play_bckground(self):
         pygame.mixer.music.load("bg.mp3")
         pygame.mixer.music.play(-1,0)
+       #for displaying score
     def display_score(self):
         self.font=pygame.font.SysFont('arial',30)
         score=self.font.render(f"score:{self.snake.length}",True,(245,245,245))
         self.surface.blit(score,(850,10))
+       #to play all other sounf
     def play_sound(self,sound):
         sound = pygame.mixer.Sound(f"{sound}.mp3")
         pygame.mixer.Sound.play(sound)
 
 
-
+     #for running the whole game
     def play(self):
          self.background()
          self.snake.walk()
@@ -130,6 +140,7 @@ class Game:
          if self.snake.x[0]==0 or self.snake.y[0]==0 or self.snake.y[0]==800 or self.snake.x[0]==1000:
                 self.play_sound('crash')
                 raise
+     #to show game over
     def  show_game_over(self):
         bg = pygame.image.load("bg_image.jpg").convert()
         self.surface.blit(bg, (0, 0))
